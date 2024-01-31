@@ -1,15 +1,15 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools", "setuptools-scm", "requests", "numpy", "pandas", "lxml", "matplotlib"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ifk-scb-compilations"
+name = "ifk_scb_compilations"
 version = "0.1.0"
 description = "Unspecified."
 license = { text = "MIT" }
 readme = "README.md"
 authors = [
-    { name = "Christoffer Strömberg", email = "info@ingenjorsarbeteforklimatet.se" },
+    { name = "IFK", email = "info@ingenjorsarbeteforklimatet.se" },
 ]
 requires-python = ">=3.9"
 dependencies = []
@@ -26,10 +26,10 @@ doc = [
     "mkdocstrings[python] ~= 0.19",
 ]
 dev = [
-    "ifk-scb-compilations[lint]",
-    "ifk-scb-compilations[type]",
-    "ifk-scb-compilations[test]",
-    "ifk-scb-compilations[doc]",
+    "ifk_scb_compilations[lint]",
+    "ifk_scb_compilations[type]",
+    "ifk_scb_compilations[test]",
+    "ifk_scb_compilations[doc]",
     "pre-commit ~= 2.20",
     "ipykernel ~= 6.26",
 ]
