@@ -1,0 +1,10 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 0.1.2
+_src_path: https://github.com/Ingenjorsarbete-For-Klimatet/ifk-python-template.git
+author: Christoffer Strömberg
+badge_gistid: ''
+email: info@ingenjorsarbeteforklimatet.se
+module_name: scb
+package_name: ifk-scb-compilations
+project_description: Unspecified.
+project_name: ifk-scb-compilations
