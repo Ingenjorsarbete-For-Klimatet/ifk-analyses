@@ -35,14 +35,21 @@
 
 ## Description
 
-Welcome to ifk-scb-compilations.
+Welcome to ifk-scb-compilations. The packages defines a process for fetching and process data from Statistiska Central Byrån (SCB).
 
-## Configuration
 
-When you start a new project, apart from the obvious changes,
-there are some details to consider.
+## Files
+Relevant files are briefly explained below. 
 
-- Build workflow, follow the guide in [dynamic badges](https://github.com/Schneegans/dynamic-badges-action).
-- To build docs, change `branch` in `github/workflows/github-action-docs.yaml`
-from `["SET_TO_MAIN"]` to `["main"]`. You also need to activate Pages under repo
-Settings/Pages.
+```
+│ 
+├── notebooks
+│   └── example_persontransportstatistik.py - Example on how the repo is supposed to be used.
+├── src
+│   ├── ifk_scb_compilations
+│   │   ├── main.py                         - Placeholder. No implementation.
+│   │   └── objects
+│   │       └── passenger_transport.py      - Query details and analysis of passenger transport data.
+└── tests
+    └── test_unit.py                        - To be implemented.
+```
