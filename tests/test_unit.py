@@ -1,9 +1,10 @@
 """Temporary unit test."""
-from ifk_scb_compilations.main import temp
+from ifk_scb_compilations.main import main
 
 
 def test_unit_temp():
     """Unit test of temp function."""
-    assert temp() is True
+    assert main() is None
 
 test_unit_temp()
+

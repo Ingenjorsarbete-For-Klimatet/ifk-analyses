@@ -1,12 +1,16 @@
+"""Inputs for request, and analysis."""
+
 from dataclasses import dataclass
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
+
 
 @dataclass
 class Request_input:
-    """data class for passenger transport query
+    """Dataclass for passenger transport query.
 
-    query går att få färdigformulerat direkt på den önskade SCB-sidan i statistikdatabasen
+    Query info can be found at url.
     """
     url = "https://api.scb.se/OV0104/v1/doris/sv/ssd/START/MI/MI0107/TotaltUtslappN"
     query = {
@@ -39,8 +43,14 @@ class Request_input:
     }
 
 class Analysis():
+    """Container for plotting data corresponding to fetch spec by Request_input."""
 
     def __init__(self, request_output: dict) -> None:
+        """Initialization.
+
+        Args:
+            request_output (dict): Output from scb api response.
+        """
         self.data = self.transform_json_to_df(request_output)
 
     def transform_json_to_df(self, request_output: dict) -> pd.DataFrame:
@@ -65,7 +75,6 @@ class Analysis():
 
     def plot_co2_transports(self) -> None:
         """Plot CO2 for transports."""
-
         labels = {'0.2': 'NATIONELL TOTAL (exklusive LULUCF, inklusive internationella transporter)',
                   '0.4': 'NATIONELL TOTAL (inklusive LULUCF, inklusive internationella transporter)',
                   '8.0': 'INRIKES TRANSPORTER, TOTALT',
@@ -73,14 +82,13 @@ class Analysis():
                   }
 
         def _plot_individual(emission_type: str) -> None:
-            """plot based on emission type.
-                   
+            """Plot based on emission type.
+
             Args:
                 emission_type (str): emission type code
             """
             ax.plot(self.data[self.data['emission type'] == emission_type]['year'], self.data[self.data['emission type'] == emission_type]['value'], label=labels[emission_type])
 
-        fig = plt.figure()
         ax = plt.subplot(111)
         _plot_individual('0.2')
         _plot_individual('0.4')
