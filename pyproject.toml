@@ -12,7 +12,7 @@ authors = [
     { name = "IFK", email = "info@ingenjorsarbeteforklimatet.se" },
 ]
 requires-python = ">=3.9"
-dependencies = []
+dependencies = ["pyscbwrapper"]
 
 [project.optional-dependencies]
 lint = [
