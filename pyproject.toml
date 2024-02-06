@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm", "requests", "numpy", "pandas", "lxml", "matplotlib"]
+requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -12,7 +12,7 @@ authors = [
     { name = "IFK", email = "info@ingenjorsarbeteforklimatet.se" },
 ]
 requires-python = ">=3.9"
-dependencies = ["pyscbwrapper"]
+dependencies = ["pyscbwrapper", "requests", "numpy", "pandas ~= 2.2"]
 
 [project.optional-dependencies]
 lint = [
@@ -32,6 +32,7 @@ dev = [
     "ifk_scb_compilations[doc]",
     "pre-commit ~= 2.20",
     "ipykernel ~= 6.26",
+    "matplotlib ~= 3.8",
 ]
 
 [tool.setuptools.packages.find]

@@ -20,9 +20,9 @@ from pyscbwrapper import SCB
 class FetchData:
     """Dataclass for emissions by kommun and year."""
 
-    def __init__(self, emissionType="växthusgaser, kiloton koldioxidekvivalenter"):
+    def __init__(self, emission_type="växthusgaser, kiloton koldioxidekvivalenter"):
         """Initialization."""
-        self.emissionType = emissionType
+        self.emission_type = emission_type
         self.query = ["MI", "MI1301", "MI1301B", "UtslappKommun"]
         self.scb = SCB("sv")
         self.scb.go_down(*self.query)
@@ -33,7 +33,7 @@ class FetchData:
     def fetchData(self) -> dict:
         """Fetch data from scb."""
         self.scb.set_query(
-            region=self.regioner, ämne=[self.emissionType], år=self.years
+            region=self.regioner, ämne=[self.emission_type], år=self.years
         )
 
         self.scb.get_query()

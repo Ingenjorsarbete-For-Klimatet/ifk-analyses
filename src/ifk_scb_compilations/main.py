@@ -1,4 +1,4 @@
-"""main function."""
+"""Main function."""
 
 
 def main() -> None:

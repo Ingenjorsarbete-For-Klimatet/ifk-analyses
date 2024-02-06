@@ -34,8 +34,7 @@
 </p>
 
 ## Description
-
-Welcome to ifk-scb-compilations. The packages defines a process for fetching and process data from Statistiska Central Byrån (SCB).
+Welcome to ifk-scb-compilations. The packages defines a process for fetching and processing data from Statistiska Central Byrån (SCB).
 
 
 ## Files

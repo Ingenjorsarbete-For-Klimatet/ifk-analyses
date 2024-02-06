@@ -1,13 +1,15 @@
 """Inputs for request, and analysis."""
 
+import json
 from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import requests
 
 
 @dataclass
-class Request_input:
+class RequestInput:
     """Dataclass for passenger transport query.
 
     Query info can be found at url.
@@ -29,15 +31,14 @@ class Request_input:
     }
 
 
-class Analysis:
-    """Container for plotting data corresponding to fetch spec by Request_input."""
+class FetchScbData:
+    """Fetch data class from scb."""
 
-    def __init__(self, request_output: dict) -> None:
-        """Initialization.
-
-        Args:
-            request_output (dict): Output from scb api response.
-        """
+    def __init__(self) -> None:
+        """Initialization."""
+        self.session = requests.Session()
+        self.response = self.session.post(RequestInput.url, json=RequestInput.query)
+        request_output = json.loads(self.response.content.decode("utf-8-sig"))
         self.data = self.transform_json_to_df(request_output)
 
     def transform_json_to_df(self, request_output: dict) -> pd.DataFrame:
@@ -67,6 +68,18 @@ class Analysis:
         }
 
         return pd.DataFrame.from_dict(data_dict)
+
+
+class Analysis:
+    """Container for plotting data corresponding to fetch spec by Request_input."""
+
+    def __init__(self, request_output: pd.DataFrame) -> None:
+        """Initialization.
+
+        Args:
+            request_output: Output from scb api response.
+        """
+        self.data = request_output
 
     def plot_co2_transports(self) -> None:
         """Plot CO2 for transports."""
