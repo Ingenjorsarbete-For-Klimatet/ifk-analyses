@@ -7,7 +7,7 @@ import pandas as pd
 
 
 @dataclass
-class Request_input:
+class RequestInput:
     """Dataclass for passenger transport query.
 
     Query info can be found at url.
