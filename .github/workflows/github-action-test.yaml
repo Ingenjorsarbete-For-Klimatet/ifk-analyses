@@ -32,7 +32,7 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.6.0
         with:
           auth: ${{ secrets.BADGE_SECRET }}
-          gistID: 
+          gistID: 8eb52840f8391f1e45b381ad2fa980b9
           filename: ifk-scb-compilations-coverage-badge.json
           label: Coverage
           message: ${{ env.total }}%
