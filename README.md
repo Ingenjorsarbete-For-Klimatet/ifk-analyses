@@ -34,10 +34,6 @@
 </p>
 
 ## Description
-<<<<<<< HEAD
-=======
-
->>>>>>> 5a000eecace5630d3009ab21123366e7595b1c58
 Welcome to ifk-scb-compilations. The packages defines a process for fetching and processing data from Statistiska Central Byrån (SCB).
 
 
