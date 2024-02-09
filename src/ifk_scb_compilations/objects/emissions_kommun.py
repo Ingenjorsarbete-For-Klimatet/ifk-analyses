@@ -36,7 +36,7 @@ class FetchData:
         self.regioner = self.scb.info()["variables"][0]["valueTexts"]
         self.years = self.scb.info()["variables"][3]["values"]
 
-    def get_data(self) -> dict:
+    def get(self) -> dict:
         """Get data from scb.
 
         Returns:
@@ -116,7 +116,7 @@ def compare_years_and_sort_chg(
 if __name__ == "__main__":
     fData = FetchData()
     # fData.print_emission_labels()
-    data_df = fData.dict_to_dataframe(fData.get_data())
+    data_df = fData.dict_to_dataframe(fData.get())
 
     year0 = 2016
     year1 = 2021
