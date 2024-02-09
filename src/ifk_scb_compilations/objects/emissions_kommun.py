@@ -18,10 +18,16 @@ from pyscbwrapper import SCB
 
 
 class FetchData:
-    """Dataclass for emissions by kommun and year."""
+    """Class for emissions by kommun and year."""
 
-    def __init__(self, emission_type="växthusgaser, kiloton koldioxidekvivalenter"):
-        """Initialization."""
+    def __init__(
+        self, emission_type: str = "växthusgaser, kiloton koldioxidekvivalenter"
+    ):
+        """Initialization.
+
+        Args:
+            emission_type: emission type to fetch
+        """
         self.emission_type = emission_type
         self.query = ["MI", "MI1301", "MI1301B", "UtslappKommun"]
         self.scb = SCB("sv")
@@ -30,8 +36,12 @@ class FetchData:
         self.regioner = self.scb.info()["variables"][0]["valueTexts"]
         self.years = self.scb.info()["variables"][3]["values"]
 
-    def fetchData(self) -> dict:
-        """Fetch data from scb."""
+    def get_data(self) -> dict:
+        """Get data from scb.
+
+        Returns:
+            dict: data from scb
+        """
         self.scb.set_query(
             region=self.regioner, ämne=[self.emission_type], år=self.years
         )
@@ -39,8 +49,15 @@ class FetchData:
         self.scb.get_query()
         return self.scb.get_data()
 
-    def dict_to_dataframe(self, request_output) -> pd.DataFrame:
-        """Output dict to dataframe."""
+    def dict_to_dataframe(self, request_output: dict) -> pd.DataFrame:
+        """Output dict to dataframe.
+
+        Args:
+            request_output: scb raw output data
+
+        Returns:
+            pd.DataFrame: scb data as DataFrame
+        """
         n_data = len(request_output["data"])
 
         def map_id_to_name() -> list:
@@ -69,17 +86,26 @@ class FetchData:
 
 
 def compare_years_and_sort_chg(
-    data_df: pd.DataFrame, lowerYear: int, upperYear: int
+    data_df: pd.DataFrame, lower_year: int, upper_year: int
 ) -> pd.DataFrame:
-    """Compare CHG between two years."""
-    data_lower_reg = data_df[data_df["year"] == lowerYear].sort_values(by=["region"])
-    data_upper_reg = data_df[data_df["year"] == upperYear].sort_values(by=["region"])
+    """Compare CHG between two years.
+
+    Args:
+        data_df: scb output data
+        lower_year: lower year to comapare
+        upper_year: upper year to compare
+
+    Returns:
+        pd.DataFrame: compiled data for lower and upper year
+    """
+    data_lower_reg = data_df[data_df["year"] == lower_year].sort_values(by=["region"])
+    data_upper_reg = data_df[data_df["year"] == upper_year].sort_values(by=["region"])
     diff = (
         data_upper_reg["chg value"].to_numpy() / data_lower_reg["chg value"].to_numpy()
     )
 
-    data_upper_reg["chg " + str(lowerYear)] = data_lower_reg["chg value"].to_numpy()
-    data_upper_reg["diff " + str(lowerYear)] = diff
+    data_upper_reg["chg " + str(lower_year)] = data_lower_reg["chg value"].to_numpy()
+    data_upper_reg["diff " + str(lower_year)] = diff
     data_upper_reg.rename(columns={"chg value": "chg 2021"}, inplace=True)
 
     data_compiled = data_upper_reg.sort_values(by=["chg 2021"], ascending=False)

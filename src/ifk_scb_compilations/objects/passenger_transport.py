@@ -45,7 +45,7 @@ class FetchScbData:
         """Transform json format to dataframe.
 
         Args:
-            request_output (dict): The first parameter.
+            request_output: The first parameter.
 
         Returns:
             pd.Dataframe: request output as dataframe
