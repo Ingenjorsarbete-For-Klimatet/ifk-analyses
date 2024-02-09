@@ -116,7 +116,7 @@ def compare_years_and_sort_chg(
 if __name__ == "__main__":
     fData = FetchData()
     # fData.print_emission_labels()
-    data_df = fData.dict_to_dataframe(fData.fetchData())
+    data_df = fData.dict_to_dataframe(fData.get_data())
 
     year0 = 2016
     year1 = 2021
