@@ -60,7 +60,6 @@ class ScbSearch:
             else:
                 logging.warning(f"{nodes} not list or dict.")
 
-
         for entry in scb.info():
             recursive_search([entry["id"]])
 
