@@ -1,11 +1,4 @@
-"""Function to search in scb.
-
-This function needs improval due to the fact that there is a limit on how many
-request one can for a time period. Due to that a pause is added in the function,
-hence the function is very slow. One can think about a solution where the
-search tree is saved in a txt. If so, fast searches can be done in the txt.
-However, this will be left as an issue for now.
-"""
+"""Function to search in scb."""
 import copy
 import logging
 import time
@@ -97,5 +90,5 @@ class ScbSearch:
 
 if __name__ == "__main__":
     sSearch = ScbSearch()
-    #sSearch.update_search_tree()
+    # sSearch.update_search_tree()
     sSearch.search_substring("region")
