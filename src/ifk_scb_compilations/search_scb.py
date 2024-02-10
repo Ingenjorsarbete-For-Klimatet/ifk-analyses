@@ -16,7 +16,7 @@ class ScbSearch:
         self.log_file_path = "log/update_search_tree.log"
         self.sleep_time = 0.7
 
-    def update_search_tree(self, entry_ids: list = None) -> list:
+    def update_search_tree(self) -> list:
         """Generate scb search tree.
 
         Args:
@@ -28,7 +28,7 @@ class ScbSearch:
         with open(self.search_tree_file_path, "w") as f:
             f.write(f"updated {datetime.today()}\n")
         scb = SCB("sv")
-        results = []
+        results: list[tuple] = []
 
         def recursive_search(nodes: list) -> None:
             """Recursively dig in search tree.
@@ -60,16 +60,13 @@ class ScbSearch:
             else:
                 logging.warning(f"{nodes} not list or dict.")
 
-        if not entry_ids:  # use all ids
-            for entry in scb.info():
-                recursive_search([entry["id"]])
-        else:
-            for entry in entry_ids:
-                recursive_search(entry)
+
+        for entry in scb.info():
+            recursive_search([entry["id"]])
 
         return results
 
-    def search_substring(self, substring: str) -> list:
+    def search_substring(self, substring: str):
         """Search for substring in scb db.
 
         Args:
