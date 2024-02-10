@@ -65,12 +65,11 @@ class ScbSearch:
 
         return results
 
-    def search_substring(self, substring: str):
+    def search_substring(self, *arg: str):
         """Search for substring in scb db.
 
         Args:
-            substring: String to search for
-            entry_ids: a list of list with entry ids
+            arg: Strings to search for
 
         Returns:
             list: elements are tuple with search path and title containing substring
@@ -78,7 +77,7 @@ class ScbSearch:
         with open(self.search_tree_file_path, "rt") as f:
             print(f.readline())
             for line in f:
-                if substring in line:
+                if all(s.lower() in line.lower() for s in arg):
                     print(line)
 
         pass
@@ -87,4 +86,4 @@ class ScbSearch:
 if __name__ == "__main__":
     sSearch = ScbSearch()
     # sSearch.update_search_tree()
-    sSearch.search_substring("region")
+    sSearch.search_substring("region", "luft")
