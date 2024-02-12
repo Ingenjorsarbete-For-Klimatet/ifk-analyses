@@ -75,7 +75,6 @@ class ScbSearch:
             list: elements are tuple with search path and title containing substring
         """
         with open(self.search_tree_file_path, "rt") as f:
-            print(f.readline())
             for line in f:
                 if all(s.lower() in line.lower() for s in arg):
                     print(line)
@@ -86,4 +85,4 @@ class ScbSearch:
 if __name__ == "__main__":
     sSearch = ScbSearch()
     # sSearch.update_search_tree()
-    sSearch.search_substring("region", "luft")
+    sSearch.search_substring("darndidu")
