@@ -53,18 +53,16 @@ class FetchScbData:
         n_vals = len(request_output["data"])
 
         data_dict = {
-            "emission measure": list(
+            "emission measure": [
                 request_output["data"][i]["key"][0] for i in range(n_vals)
-            ),
-            "emission type": list(
+            ],
+            "emission type": [
                 request_output["data"][i]["key"][1] for i in range(n_vals)
-            ),
-            "year": list(
-                float(request_output["data"][i]["key"][2]) for i in range(n_vals)
-            ),
-            "value": list(
+            ],
+            "year": [float(request_output["data"][i]["key"][2]) for i in range(n_vals)],
+            "value": [
                 float(request_output["data"][i]["values"][0]) for i in range(n_vals)
-            ),
+            ],
         }
 
         return pd.DataFrame.from_dict(data_dict)
@@ -112,10 +110,6 @@ class Analysis:
         ax.set_xlabel("År")
         ax.set_ylabel("kiloTon CO2-ekvivalent")
         ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.05))
-        box = ax.get_position()
-        ax.set_position(
-            [box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9]
-        )
         plt.show()
         pass
 
