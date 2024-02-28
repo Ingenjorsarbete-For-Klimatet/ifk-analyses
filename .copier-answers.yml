@@ -1,10 +1,10 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
 _commit: 0.1.2
 _src_path: https://github.com/Ingenjorsarbete-For-Klimatet/ifk-python-template.git
-author: Christoffer Strömberg
+author: IFK
 badge_gistid: ''
 email: info@ingenjorsarbeteforklimatet.se
 module_name: scb
-package_name: ifk-scb-compilations
-project_description: Unspecified.
-project_name: ifk-scb-compilations
+package_name: ifk_scb_compilations
+project_description: The packages defines a process for fetching and processing data from Statistiska Central Byrån (SCB).
+project_name: ifk_scb_compilations
