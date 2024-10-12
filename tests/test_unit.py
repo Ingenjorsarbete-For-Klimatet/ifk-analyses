@@ -1,4 +1,5 @@
 """Temporary unit test."""
+
 from ifk_scb_compilations.main import main
 
 
