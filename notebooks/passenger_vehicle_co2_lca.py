@@ -44,7 +44,7 @@ import numpy as np
 car_manufacturing_cost = 8  # 8 kg CO2/kg car
 battery_manufacturing_cost = 77  # 77 kg CO2/kWh battery (average between 56 & 98, from EX90 and EX30, respectively.)
 kgC02_per_kWh_europe = 0.45  # 0.45 kg CO2/kWh electricity (World mix)
-kgC02_per_litre = 3  # 3kg C02/litre (extraction, production & combustion)
+kgC02_per_litre = 3  # 3kg C02/litre petrol (extraction, production & combustion)
 
 # ## Definiera bilar
 # För att kunna göra jämförelsen behöver vi välja vilka biltyper vi vill titta på. Följande tre typexempel har tagits fram:
