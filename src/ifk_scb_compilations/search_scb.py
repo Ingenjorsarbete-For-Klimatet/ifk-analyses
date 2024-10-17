@@ -1,4 +1,5 @@
 """Function to search in scb."""
+
 import copy
 import logging
 import time
