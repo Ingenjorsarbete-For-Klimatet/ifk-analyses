@@ -24,8 +24,12 @@
 # between and within countries, and among individuals (high confidence)**
 # https://www.ipcc.ch/report/ar6/syr/downloads/report/IPCC_AR6_SYR_SPM.pdf
 #
-# Ett steg mot konkreta och effektiva åtgärder är att göra en livscykelanalys för fordon. Nedan en enkel jämförelsemodell för att kunna utvärdera utsläpp ifrån nyproduktion i förhållande till utsläpp från körning. De exempel på siffror som tagits fram kommer från öppna källor på nätet, t ex Volvo Cars LCA-rapporter, men lämnas för användaren att ändra för att kunna göra egna parameterstudier.
+# Ett steg mot konkreta och effektiva åtgärder är att göra en livscykelanalys för fordon. Nedan en enkel
+# jämförelsemodell för att kunna utvärdera utsläpp ifrån nyproduktion i förhållande till utsläpp från
+# körning. De exempel på siffror som tagits fram kommer från öppna källor på nätet, t ex Volvo Cars
+# LCA-rapporter, men lämnas för användaren att ändra för att kunna göra egna parameterstudier.
 
+import ifk_analyses.objects.personal_vehicle_lca as pvl
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -38,7 +42,7 @@ import numpy as np
 #
 # https://innovationorigins.com/en/producing-gasoline-and-diesel-emits-more-co2-than-we-thought/
 #
-# I denna analys har dock datan från Volvo använts.
+# I denna analys har dock datan från Volvos officiella analyser hänvisade till ovan använts.
 
 # Grundläggande antaganden
 car_manufacturing_cost = 8  # 8 kg CO2/kg car
