@@ -29,6 +29,5 @@ def co2analysis(car: Vehicle, driven_distance, co2debt):
         * car.consumption_per_km
         * (driven_distance - driven_distance[0])
     )
-    car_data = [car, driven_distance, C02_data]
 
-    return car_data
+    return driven_distance, C02_data

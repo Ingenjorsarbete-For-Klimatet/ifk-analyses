@@ -29,9 +29,10 @@
 # körning. De exempel på siffror som tagits fram kommer från öppna källor på nätet, t ex Volvo Cars
 # LCA-rapporter, men lämnas för användaren att ändra för att kunna göra egna parameterstudier.
 
-import ifk_analyses.objects.personal_vehicle_lca as pvl
 import matplotlib.pyplot as plt
 import numpy as np
+
+import ifk_analyses.objects.personal_vehicle_lca as pvl
 
 # ## Grundläggande antaganden
 # Grundläggande antaganden kommer från Volvo Cars LCA-rapporter, som återfinns här:
@@ -52,26 +53,24 @@ kgCO2_per_litre = 3  # 3kg C02/litre petrol (extraction, production & combustion
 vehicle_life = 300000  # 300 000 km defined as the average life of a vehicle (from googling Swedish sources)
 
 # ## Definiera bilar
-# För att kunna göra jämförelsen behöver vi välja vilka biltyper vi vill titta på. Följande tre typexempel har tagits fram:
+# För att kunna göra jämförelsen behöver vi välja vilka biltyper vi vill titta på. Följande typexempel har tagits fram:
 #
-# ##### Version 1
 # |Bil | Vikt exkl batteri (kg) | Batteri (kWh) | Räckvidd el (km) | Energiförbrukning| Användande|
 # |---|---|---|---|---|---|
-# |A: Liten bensinbil | 1500 | - | - | 0.5 liter bensin/mil |100%|
-# |B: Stor elbil | 2200 | 125 | 500 | 0.25 kWh/km |100%|
-# |C: Liten elbil | 1500 | 50 | 330 | 0.15 kWh/km |100%|
-# |D: Cykel | 10 | 0 | 0 | 0kWh/km |100%|
-# |E: Elcykel | 15 |0.5 | 20 | 0.005 kWh/km |100%|
+# |Liten bensinbil | 1500 | - | - | 0.5 liter bensin/mil |100%|
+# |Stor elbil | 2200 | 125 | 500 | 0.25 kWh/km |100%|
+# |Liten elbil | 1500 | 50 | 330 | 0.15 kWh/km |100%|
+# |Cykel | 10 | 0 | 0 | 0kWh/km |100%|
+# |Elcykel | 15 |0.5 | 20 | 0.005 kWh/km |100%|
 #
 
 cars = {
     pvl.Vehicle(
         [
-            "A: Liten bensinbil",
+            "Liten bensinbil",
             1500,
             0,
             0.05,
-            1,
             car_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_litre,
@@ -80,11 +79,10 @@ cars = {
     ),
     pvl.Vehicle(
         [
-            "B: Stor elbil",
+            "Stor elbil",
             2200,
             125,
             0.25,
-            1,
             car_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
@@ -93,11 +91,10 @@ cars = {
     ),
     pvl.Vehicle(
         [
-            "C: Liten elbil",
+            "Liten elbil",
             1500,
             50,
             0.15,
-            1,
             car_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
@@ -106,11 +103,10 @@ cars = {
     ),
     pvl.Vehicle(
         [
-            "D: Cykel",
+            "Cykel",
             10,
             0,
             0,
-            1,
             car_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
@@ -119,11 +115,10 @@ cars = {
     ),
     pvl.Vehicle(
         [
-            "E: Elcykel",
+            "Elcykel",
             15,
             0.5,
             0.005,
-            1,
             car_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
@@ -136,15 +131,16 @@ driven_distance = np.linspace(0, vehicle_life, 200)
 legend = []
 for car in cars:
     car_data = pvl.co2analysis(car, driven_distance, 1)
-    plt.plot(car_data[1], car_data[2])
-    legend.append(car.name[0])
+    plt.plot(car_data[0], car_data[1])
+    legend.append(car.name)
 plt.legend(legend)
 plt.xlabel("kördistans [km]")
 plt.ylabel("CO2 [metric tonnes]")
 plt.show()
 
 # ## Fordonspark
-# Många av oss äger ju flera fordon. Hur mycket förbättrar vi situationen om vi cyklar 10km för varje 100km vi kör i vår stora bil? Här jämför vi tre alternativ för omläggning av persontransporterna för någon som tidigare kört en liten bensinbil men som nu vill lägga om sitt liv för att minska klimatpåverkan. Efter 16667mil bilpendling bestämmer sig vår protagonist för att lägga om sitt liv för att minska sitt klimatavtryck, genom att:
+# Många av oss äger ju flera fordon. Hur mycket förbättrar vi situationen om vi cyklar 10km för varje 100km vi kör i vår stora bil? Här jämför vi
+# alternativ för omläggning av persontransporterna för någon som tidigare kört en liten bensinbil men som nu vill lägga om sitt liv för att minska klimatpåverkan. Efter ett antal mil med bilpendling bestämmer sig vår protagonist för att lägga om sitt liv för att minska sitt klimatavtryck, genom att:
 #
 # 1. Fortsätta köra samma bensinbil
 # 2. Köpa en stor elbil
@@ -158,125 +154,84 @@ plt.show()
 kilometers_at_change = (
     166667  # Average current driven distance according to analysis below
 )
+fraction_bike_rides = 0.1  # 10% biking
 
-# +
-# Scenario 1: Fortsätta köra samma bensinbil
-scenarios = {"1. Fortsätta köra bensinbil": cars["A: Liten bensinbil"]}
-driven_distance = np.linspace(0, 300000, 200)
-car_data = co2analysis(scenarios, driven_distance, 0)
+# Define support variables for readability
+driven_to_split = np.linspace(0, kilometers_at_change, 100)
+driven_from_split = np.linspace(kilometers_at_change, vehicle_life, 100)
+small_gas_car = next((car for car in cars if car.name == "Liten bensinbil"), "None")
+small_electric_car = next((car for car in cars if car.name == "Liten elbil"), "None")
+large_electric_car = next((car for car in cars if car.name == "Stor elbil"), "None")
+bike = next((car for car in cars if car.name == "Cykel"), "None")
+electric_bike = next((car for car in cars if car.name == "Cykel"), "None")
 
 
-# Scenario 2: Köpa stor elbil
-scenarios = {"2. Köpa stor elbil": [1500, 0, 0, 0.05, 1]}
-driven_distance = np.linspace(0, kilometers_at_change, 100)
-car_data_1 = co2analysis(scenarios, driven_distance, 0)
+# And define additional vehicle combinations
+large_electric_and_bike = pvl.Vehicle(
+    [
+        "Stor elbil och cykel",
+        large_electric_car.weight + bike.weight,
+        large_electric_car.battery_capacity + bike.battery_capacity,
+        large_electric_car.consumption_per_km * (1 - fraction_bike_rides)
+        + bike.consumption_per_km * fraction_bike_rides,
+        car_manufacturing_cost,
+        battery_manufacturing_cost,
+        kgCO2_per_kWh,
+        vehicle_life,
+    ]
+)
+small_electric_and_bike = pvl.Vehicle(
+    [
+        "Liten elbil och cykel",
+        small_electric_car.weight + bike.weight,
+        small_electric_car.battery_capacity + bike.battery_capacity,
+        small_electric_car.consumption_per_km * (1 - fraction_bike_rides)
+        + bike.consumption_per_km * fraction_bike_rides,
+        car_manufacturing_cost,
+        battery_manufacturing_cost,
+        kgCO2_per_kWh,
+        vehicle_life,
+    ]
+)
 
+# Define the scenarios as described above
 scenarios = {
-    "tmp1": cars[
-        "B: Stor elbil"
-    ],  # add percentage of driving with current mode of transport
+    "Kör vidare liten bensinbil": {0: [small_gas_car, driven_distance]},
+    "Köpa stor elbil": {
+        0: [small_gas_car, driven_to_split],
+        1: [large_electric_car, driven_from_split],
+    },
+    "Köpa liten elbil": {
+        0: [small_gas_car, driven_to_split],
+        1: [small_electric_car, driven_from_split],
+    },
+    "Köpa stor elbil och cykel": {
+        0: [small_gas_car, driven_to_split],
+        1: [large_electric_and_bike, driven_from_split],
+    },
+    "Köpa liten elbil och cykel": {
+        0: [small_gas_car, driven_to_split],
+        1: [small_electric_and_bike, driven_from_split],
+    },
+    "Köpa elcykel": {
+        0: [small_gas_car, driven_to_split],
+        1: [electric_bike, driven_from_split],
+    },
+    "Aldrig skaffa bil": {0: [bike, driven_distance]},
 }
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2 = co2analysis(scenarios, driven_distance, car_data_1[0][2][-1] * 1000)
-# ([key,driven_distance,C02_data/1000])
-car_data_1[0][1] = np.append(car_data_1[0][1], car_data_2[0][1])
-car_data_1[0][2] = np.append(car_data_1[0][2], car_data_2[0][2])
-car_data.append(car_data_1[0])
 
 
-# Scenario 3: Köpa liten elbil
-scenarios = {"3. Köpa liten elbil": cars["A: Liten bensinbil"]}
-driven_distance = np.linspace(0, kilometers_at_change, 100)
-car_data_1 = co2analysis(scenarios, driven_distance, 0)
-
-scenarios = {
-    "tmp1": cars["C: Liten elbil"],
-}
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2 = co2analysis(scenarios, driven_distance, car_data_1[0][2][-1] * 1000)
-
-car_data_1[0][1] = np.append(car_data_1[0][1], car_data_2[0][1])
-car_data_1[0][2] = np.append(car_data_1[0][2], car_data_2[0][2])
-car_data.append(car_data_1[0])
-
-
-# Scenario 4: Köpa stor elbil och cykel
-scenarios = {"4. Köpa stor elbil och cykel": cars["A: Liten bensinbil"]}
-driven_distance = np.linspace(0, kilometers_at_change, 100)
-car_data_1 = co2analysis(scenarios, driven_distance, 0)
-
-scenarios = {
-    "tmp1": cars["B: Stor elbil"],
-}
-scenarios["tmp1"][4] = 0.9  # percentage with current mode of transport
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2 = co2analysis(scenarios, driven_distance, car_data_1[0][2][-1] * 1000)
-# ([key,driven_distance,C02_data/1000])
-scenarios = {
-    "tmp2": cars[
-        "D: Cykel"
-    ],  # add percentage of driving with current mode of transport
-}
-scenarios["tmp2"][4] = 0.1
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2_2 = co2analysis(scenarios, driven_distance, 0)
-car_data_2[0][2] = car_data_2[0][2] + car_data_2_2[0][2]
-
-car_data_1[0][1] = np.append(car_data_1[0][1], car_data_2[0][1])
-car_data_1[0][2] = np.append(car_data_1[0][2], car_data_2[0][2])
-car_data.append(car_data_1[0])
-
-
-# Scenario 5: Köpa liten elbil och cykel
-scenarios = {"5. Köpa liten elbil och cykel": cars["A: Liten bensinbil"]}
-driven_distance = np.linspace(0, kilometers_at_change, 100)
-car_data_1 = co2analysis(scenarios, driven_distance, 0)
-
-scenarios = {
-    "tmp1": cars["C: Liten elbil"],
-}
-scenarios["tmp1"][4] = 0.9  # percentage with current mode of transport
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2 = co2analysis(scenarios, driven_distance, car_data_1[0][2][-1] * 1000)
-# ([key,driven_distance,C02_data/1000])
-
-scenarios = {
-    "tmp2": cars[
-        "D: Cykel"
-    ],  # add percentage of driving with current mode of transport
-}
-scenarios["tmp2"][4] = 0.1
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2_2 = co2analysis(scenarios, driven_distance, 0)
-car_data_2[0][2] = car_data_2[0][2] + car_data_2_2[0][2]
-
-car_data_1[0][1] = np.append(car_data_1[0][1], car_data_2[0][1])
-car_data_1[0][2] = np.append(car_data_1[0][2], car_data_2[0][2])
-car_data.append(car_data_1[0])
-
-
-# Scenario 6: Köpa elcykel
-scenarios = {"6. Köpa elcykel": cars["A: Liten bensinbil"]}
-driven_distance = np.linspace(0, kilometers_at_change, 100)
-car_data_1 = co2analysis(scenarios, driven_distance, 0)
-
-scenarios = {"tmp1": cars["E: Elcykel"]}
-driven_distance = np.linspace(kilometers_at_change, 300000, 100)
-car_data_2 = co2analysis(scenarios, driven_distance, car_data_1[0][2][-1] * 1000)
-# ([key,driven_distance,C02_data/1000])
-
-car_data_1[0][1] = np.append(car_data_1[0][1], car_data_2[0][1])
-car_data_1[0][2] = np.append(car_data_1[0][2], car_data_2[0][2])
-car_data.append(car_data_1[0])
-
-# Scenario 7: Aldrig köpa bil
-scenarios = {
-    "7. Aldrig köpa bil": cars["D: Cykel"],
-}
-driven_distance = np.linspace(0, 300000, 100)
-car_data_1 = co2analysis(scenarios, driven_distance, 0)
-car_data.append(car_data_1[0])
-# -
+car_data = []
+for scenario, data in scenarios.items():
+    co2debt = 0
+    scenario_driven_distance = []
+    scenario_CO2data = []
+    for _, caranddistance in data.items():
+        a, b = pvl.co2analysis(caranddistance[0], caranddistance[1], co2debt)
+        scenario_driven_distance = np.append(scenario_driven_distance, a)
+        scenario_CO2data = np.append(scenario_CO2data, b)
+        co2debt = scenario_CO2data[-1]
+    car_data.append([scenario, scenario_driven_distance, scenario_CO2data])
 
 plt.figure(figsize=(10, 6), dpi=100)
 leg = []
@@ -325,11 +280,10 @@ average_remaining_distance = 133333  # km
 average_fuel_consumption = 0.07  # l / km
 total_number_of_cars = 2e9  # two billion cars world wide
 
-133000 * 0.07 * kgC02_per_litre * 2000000000 / 1000000 / 1000
 remaining_CO2_output_from_current_fleet = (
     average_remaining_distance
     * average_fuel_consumption
-    * kgC02_per_litre
+    * kgCO2_per_litre
     * total_number_of_cars
     / 1e9
     / 1e3
