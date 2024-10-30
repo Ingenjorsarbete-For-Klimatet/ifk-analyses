@@ -1,6 +1,6 @@
 """Temporary unit test."""
 
-from ifk_scb_compilations.main import main
+from ifk_analyses.main import main
 
 
 def test_unit_temp():
