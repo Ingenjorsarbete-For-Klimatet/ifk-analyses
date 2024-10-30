@@ -26,10 +26,10 @@ doc = [
     "mkdocstrings[python] ~= 0.19",
 ]
 dev = [
-    "ifk_scb_compilations[lint]",
-    "ifk_scb_compilations[type]",
-    "ifk_scb_compilations[test]",
-    "ifk_scb_compilations[doc]",
+    "ifk_analyses[lint]",
+    "ifk_analyses[type]",
+    "ifk_analyses[test]",
+    "ifk_analyses[doc]",
     "pre-commit ~= 2.20",
     "ipykernel ~= 6.26",
     "matplotlib ~= 3.8",
