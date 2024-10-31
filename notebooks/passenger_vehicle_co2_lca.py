@@ -46,7 +46,7 @@ import ifk_analyses.objects.personal_vehicle_lca as pvl
 # I denna analys har dock datan från Volvos officiella analyser hänvisade till ovan använts.
 
 # Grundläggande antaganden
-car_manufacturing_cost = 8  # 8 kg CO2/kg car
+vehicle_manufacturing_cost = 8  # 8 kg CO2/kg vehicle
 battery_manufacturing_cost = 77  # 77 kg CO2/kWh battery (average between 56 & 98, from EX90 and EX30, respectively.)
 kgCO2_per_kWh = 0.45  # 0.45 kg CO2/kWh electricity (World mix)
 kgCO2_per_litre = 3  # 3kg C02/litre petrol (extraction, production & combustion)
@@ -64,14 +64,14 @@ vehicle_life = 300000  # 300 000 km defined as the average life of a vehicle (fr
 # |Elcykel | 15 |0.5 | 20 | 0.005 kWh/km |100%|
 #
 
-cars = {
+vehicles = {
     pvl.Vehicle(
         [
             "Liten bensinbil",
             1500,
             0,
             0.05,
-            car_manufacturing_cost,
+            vehicle_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_litre,
             vehicle_life,
@@ -83,7 +83,7 @@ cars = {
             2200,
             125,
             0.25,
-            car_manufacturing_cost,
+            vehicle_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
             vehicle_life,
@@ -95,7 +95,7 @@ cars = {
             1500,
             50,
             0.15,
-            car_manufacturing_cost,
+            vehicle_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
             vehicle_life,
@@ -107,7 +107,7 @@ cars = {
             10,
             0,
             0,
-            car_manufacturing_cost,
+            vehicle_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
             vehicle_life,
@@ -119,7 +119,7 @@ cars = {
             15,
             0.5,
             0.005,
-            car_manufacturing_cost,
+            vehicle_manufacturing_cost,
             battery_manufacturing_cost,
             kgCO2_per_kWh,
             vehicle_life,
@@ -129,10 +129,10 @@ cars = {
 
 driven_distance = np.linspace(0, vehicle_life, 200)
 legend = []
-for car in cars:
-    car_data = pvl.co2analysis(car, driven_distance, 1)
-    plt.plot(car_data[0], car_data[1])
-    legend.append(car.name)
+for vehicle in vehicles:
+    vehicle_data = pvl.co2analysis(vehicle, driven_distance, 1)
+    plt.plot(vehicle_data[0], vehicle_data[1])
+    legend.append(vehicle.name)
 plt.legend(legend)
 plt.xlabel("kördistans [km]")
 plt.ylabel("CO2 [metric tonnes]")
@@ -159,11 +159,19 @@ fraction_bike_rides = 0.1  # 10% biking
 # Define support variables for readability
 driven_to_split = np.linspace(0, kilometers_at_change, 100)
 driven_from_split = np.linspace(kilometers_at_change, vehicle_life, 100)
-small_gas_car = next((car for car in cars if car.name == "Liten bensinbil"), "None")
-small_electric_car = next((car for car in cars if car.name == "Liten elbil"), "None")
-large_electric_car = next((car for car in cars if car.name == "Stor elbil"), "None")
-bike = next((car for car in cars if car.name == "Cykel"), "None")
-electric_bike = next((car for car in cars if car.name == "Cykel"), "None")
+small_gas_car = next(
+    (vehicle for vehicle in vehicles if vehicle.name == "Liten bensinbil"), "None"
+)
+small_electric_car = next(
+    (vehicle for vehicle in vehicles if vehicle.name == "Liten elbil"), "None"
+)
+large_electric_car = next(
+    (vehicle for vehicle in vehicles if vehicle.name == "Stor elbil"), "None"
+)
+bike = next((vehicle for vehicle in vehicles if vehicle.name == "Cykel"), "None")
+electric_bike = next(
+    (vehicle for vehicle in vehicles if vehicle.name == "Cykel"), "None"
+)
 
 
 # And define additional vehicle combinations
@@ -174,7 +182,7 @@ large_electric_and_bike = pvl.Vehicle(
         large_electric_car.battery_capacity + bike.battery_capacity,
         large_electric_car.consumption_per_km * (1 - fraction_bike_rides)
         + bike.consumption_per_km * fraction_bike_rides,
-        car_manufacturing_cost,
+        vehicle_manufacturing_cost,
         battery_manufacturing_cost,
         kgCO2_per_kWh,
         vehicle_life,
@@ -187,7 +195,7 @@ small_electric_and_bike = pvl.Vehicle(
         small_electric_car.battery_capacity + bike.battery_capacity,
         small_electric_car.consumption_per_km * (1 - fraction_bike_rides)
         + bike.consumption_per_km * fraction_bike_rides,
-        car_manufacturing_cost,
+        vehicle_manufacturing_cost,
         battery_manufacturing_cost,
         kgCO2_per_kWh,
         vehicle_life,
@@ -221,21 +229,21 @@ scenarios = {
 }
 
 
-car_data = []
+vehicle_data = []
 for scenario, data in scenarios.items():
     co2debt = 0
     scenario_driven_distance = []
     scenario_CO2data = []
-    for _, caranddistance in data.items():
-        a, b = pvl.co2analysis(caranddistance[0], caranddistance[1], co2debt)
+    for _, vehicleanddistance in data.items():
+        a, b = pvl.co2analysis(vehicleanddistance[0], vehicleanddistance[1], co2debt)
         scenario_driven_distance = np.append(scenario_driven_distance, a)
         scenario_CO2data = np.append(scenario_CO2data, b)
         co2debt = scenario_CO2data[-1]
-    car_data.append([scenario, scenario_driven_distance, scenario_CO2data])
+    vehicle_data.append([scenario, scenario_driven_distance, scenario_CO2data])
 
 plt.figure(figsize=(10, 6), dpi=100)
 leg = []
-for value in car_data:
+for value in vehicle_data:
     plt.plot(value[1], value[2])
     leg.append(value[0])
 plt.legend(leg)
@@ -314,14 +322,18 @@ print("{:3.0f} Gton CO2".format(remaining_CO2_output_from_current_fleet))
 # Om vi väljer att växla till en större elbil för alla bilar så kommer den att
 # öka mängden C02-utsläpp till totalt resta 3000000km med:
 
-increase_from_current_fleet_if_electrified = car_data[1][2][-1] / car_data[0][2][-1]
+increase_from_current_fleet_if_electrified = (
+    vehicle_data[1][2][-1] / vehicle_data[0][2][-1]
+)
 print("{:3.0f} percent".format((increase_from_current_fleet_if_electrified - 1) * 100))
 
 
 # Vilket ger de totala utsläppen från fordonsflottan istället till:
 
 remaining_CO2_output_from_current_fleet_if_electrified = (
-    car_data[1][2][-1] / car_data[0][2][-1] * remaining_CO2_output_from_current_fleet
+    vehicle_data[1][2][-1]
+    / vehicle_data[0][2][-1]
+    * remaining_CO2_output_from_current_fleet
 )
 print("The expected CO2-output from the lifetime of the current world car fleet,")
 print("when everyone changes to an electric car now, would be approximately")
