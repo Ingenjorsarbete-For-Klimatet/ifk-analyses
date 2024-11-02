@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+import numpy as np
+
 
 @dataclass(frozen=True)
 class Vehicle:
@@ -17,7 +19,7 @@ class Vehicle:
     vehicle_life_km: int
 
 
-def co2analysis(car: Vehicle, driven_distance, co2debt):
+def co2analysis(car: Vehicle, driven_distance: np.ndarray, co2debt: int):
     """CO2 accumulator function."""
     C02_data_constant = (
         co2debt
