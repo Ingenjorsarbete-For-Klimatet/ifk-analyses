@@ -251,10 +251,11 @@ plt.show()
 # av elbil* endast är marginellt bättre.
 #
 # Vad har vi för siffror att förhålla oss till på samhällsnivå? I världen
-# finns det grovt räknat två miljarder bilar. Hur gamla dessa är har jag
-# svårt att hitta siffror för, men den omfattande svenska statistiken har
-# siffror som vi kan tillgripa: I Sverige är en bil i genomsnitt 10år gammal,
-# och skrotas i genomsnitt efter 18år.
+# finns det grovt räknat 1,475 miljarder bilar.
+# https://hedgescompany.com/blog/2021/06/how-many-cars-are-there-in-the-world/
+# Hur gamla dessa är har jag svårt att hitta siffror för, men den omfattande
+# svenska statistiken har siffror som vi kan tillgripa: I Sverige är en bil i
+# genomsnitt 10år gammal, och skrotas i genomsnitt efter 18år.
 #
 # Låt oss vidare anta att de svenska förhållandena är representativa för
 # världen i stort och att en bil körs 300000km i genomsnitt innan den skrotas
@@ -276,7 +277,7 @@ plt.show()
 # +
 average_remaining_distance = 133333  # km
 average_fuel_consumption = 0.07  # l / km
-total_number_of_cars = 2e9  # two billion cars world wide
+total_number_of_cars = 1.475e9  # cars world wide
 
 remaining_CO2_output_from_current_fleet = (
     average_remaining_distance
