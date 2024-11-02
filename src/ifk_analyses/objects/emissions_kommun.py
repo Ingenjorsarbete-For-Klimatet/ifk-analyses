@@ -1,17 +1,20 @@
 """Fetch emission data by kommun.
 
-Observera att i tabellen över utsläpp från transporter ingår för närvarande endast vägtransporter.
-Miljöräkenskapernas statistik om utsläpp till luft utgår från ett produktionsperspektiv och redovisar därför
-direkta utsläpp från svenska ekonomiska aktörer. Produktionsperspektivet är annorlunda från det territoriella
-perspektivet (som används för att rapportera Sveriges utsläpp till FN), vilket avgränsas till utsläpp som
-sker inom Sveriges gränser. Samtidigt används ett territoriellt perspektiv i mycket av den underlagsdata
-som används för att producera miljöräkenskapernas statistik om utsläpp till luft. För att justera för
-skillnaden mellan miljöräkenskapernas produktionsperspektiv och det territoriella perspektivet används
-en så kallad residensjustering. Residensjusteringen appliceras framförallt på transportrelaterade utsläpp.
-Mer information om beräkningsmetodiken och underlagsdata som används för residensjusteringen redovisas i
-statistikens Kvalitetsdeklarationen.
+Observera att i tabellen över utsläpp från transporter ingår för närvarande
+endast vägtransporter. Miljöräkenskapernas statistik om utsläpp till luft utgår
+från ett produktionsperspektiv och redovisar därför direkta utsläpp från
+svenska ekonomiska aktörer. Produktionsperspektivet är annorlunda från det
+territoriella perspektivet (som används för att rapportera Sveriges utsläpp
+till FN), vilket avgränsas till utsläpp som sker inom Sveriges gränser.
+Samtidigt används ett territoriellt perspektiv i mycket av den underlagsdata
+som används för att producera miljöräkenskapernas statistik om utsläpp till
+luft. För att justera för skillnaden mellan miljöräkenskapernas
+produktionsperspektiv och det territoriella perspektivet används en så kallad
+residensjustering. Residensjusteringen appliceras framförallt på
+transportrelaterade utsläpp.
+Mer information om beräkningsmetodiken och underlagsdata som används för
+residensjusteringen redovisas i statistikens Kvalitetsdeklarationen.
 """
-
 
 import pandas as pd
 from pyscbwrapper import SCB
@@ -23,7 +26,7 @@ class FetchData:
     def __init__(
         self, emission_type: str = "växthusgaser, kiloton koldioxidekvivalenter"
     ):
-        """Initialization.
+        """Initialize.
 
         Args:
             emission_type: emission type to fetch
@@ -70,7 +73,7 @@ class FetchData:
         data_dict = {
             "region": map_id_to_name(),
             "year": [int(request_output["data"][i]["key"][2]) for i in range(n_data)],
-            #'substance': [request_output['data'][i]['key'][1] for i in range(n_data)],
+            # 'substance': [request_output['data'][i]['key'][1] for i in range(n_data)],
             "chg value": [
                 float(request_output["data"][i]["values"][0]) for i in range(n_data)
             ],

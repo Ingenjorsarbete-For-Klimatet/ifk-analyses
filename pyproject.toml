@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ifk_scb_compilations"
+name = "ifk_analyses"
 version = "0.1.0"
 description = "Compilation of data from SCB and help functions working with scb api."
 license = { text = "MIT" }
@@ -12,7 +12,7 @@ authors = [
     { name = "IFK", email = "info@ingenjorsarbeteforklimatet.se" },
 ]
 requires-python = ">=3.9"
-dependencies = ["pyscbwrapper", "requests", "numpy", "pandas ~= 2.2"]
+dependencies = ["pyscbwrapper", "requests", "numpy", "pandas ~= 2.2", "dataclasses ~= 0.6"]
 
 [project.optional-dependencies]
 lint = [
@@ -26,13 +26,14 @@ doc = [
     "mkdocstrings[python] ~= 0.19",
 ]
 dev = [
-    "ifk_scb_compilations[lint]",
-    "ifk_scb_compilations[type]",
-    "ifk_scb_compilations[test]",
-    "ifk_scb_compilations[doc]",
+    "ifk_analyses[lint]",
+    "ifk_analyses[type]",
+    "ifk_analyses[test]",
+    "ifk_analyses[doc]",
     "pre-commit ~= 2.20",
     "ipykernel ~= 6.26",
     "matplotlib ~= 3.8",
+    "dataclasses ~= 0.6",
 ]
 
 [tool.setuptools.packages.find]

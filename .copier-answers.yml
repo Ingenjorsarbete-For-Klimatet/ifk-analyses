@@ -5,6 +5,6 @@ author: IFK
 badge_gistid: ''
 email: info@ingenjorsarbeteforklimatet.se
 module_name: scb
-package_name: ifk_scb_compilations
+package_name: ifk_analyses
 project_description: The packages defines a process for fetching and processing data from Statistiska Central Byrån (SCB).
-project_name: ifk_scb_compilations
+project_name: ifk_analyses

@@ -1,8 +1,8 @@
-site_name: ifk-scb-compilations
-repo_url: https://github.com/Ingenjorsarbete-For-Klimatet/ifk-scb-compilations
+site_name: ifk-analyses
+repo_url: https://github.com/Ingenjorsarbete-For-Klimatet/ifk-analyses
 site_author: Christoffer Strömberg
-site_url: https://ingenjorsarbete-for-klimatet.github.io/ifk-scb-compilations/
-repo_name: Ingenjorsarbete-For-Klimatet/ifk-scb-compilations
+site_url: https://ingenjorsarbete-for-klimatet.github.io/ifk-analyses/
+repo_name: Ingenjorsarbete-For-Klimatet/ifk-analyses
 
 nav:
 - Home: index.md

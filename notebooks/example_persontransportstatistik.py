@@ -8,7 +8,7 @@
 
 # %%
 # %matplotlib inline
-import ifk_scb_compilations.objects.passenger_transport as passenger_transport
+import ifk_analyses.objects.passenger_transport as passenger_transport
 
 # %% [markdown]
 # Start a request session and fetch data from scb, based on the query defined in ifk_scb_compilations.queries.passenger_transport.Request_input.query.
