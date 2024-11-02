@@ -66,64 +66,54 @@ vehicle_life = 300000  # 300 000 km defined as the average life of a vehicle (fr
 
 vehicles = {
     pvl.Vehicle(
-        [
-            "Liten bensinbil",
-            1500,
-            0,
-            0.05,
-            vehicle_manufacturing_cost,
-            battery_manufacturing_cost,
-            kgCO2_per_litre,
-            vehicle_life,
-        ]
+        name="Liten bensinbil",
+        weight=1500,
+        battery_capacity=0,
+        consumption_per_km=0.05,
+        co2_build_cost_per_kg=vehicle_manufacturing_cost,
+        co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+        co2_cost_per_consumption=kgCO2_per_litre,
+        vehicle_life_km=vehicle_life,
     ),
     pvl.Vehicle(
-        [
-            "Stor elbil",
-            2200,
-            125,
-            0.25,
-            vehicle_manufacturing_cost,
-            battery_manufacturing_cost,
-            kgCO2_per_kWh,
-            vehicle_life,
-        ]
+        name="Stor elbil",
+        weight=2200,
+        battery_capacity=125,
+        consumption_per_km=0.25,
+        co2_build_cost_per_kg=vehicle_manufacturing_cost,
+        co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+        co2_cost_per_consumption=kgCO2_per_kWh,
+        vehicle_life_km=vehicle_life,
     ),
     pvl.Vehicle(
-        [
-            "Liten elbil",
-            1500,
-            50,
-            0.15,
-            vehicle_manufacturing_cost,
-            battery_manufacturing_cost,
-            kgCO2_per_kWh,
-            vehicle_life,
-        ]
+        name="Liten elbil",
+        weight=1500,
+        battery_capacity=50,
+        consumption_per_km=0.15,
+        co2_build_cost_per_kg=vehicle_manufacturing_cost,
+        co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+        co2_cost_per_consumption=kgCO2_per_kWh,
+        vehicle_life_km=vehicle_life,
     ),
     pvl.Vehicle(
-        [
-            "Cykel",
-            10,
-            0,
-            0,
-            vehicle_manufacturing_cost,
-            battery_manufacturing_cost,
-            kgCO2_per_kWh,
-            vehicle_life,
-        ]
+        name="Cykel",
+        weight=10,
+        battery_capacity=0,
+        consumption_per_km=0,
+        co2_build_cost_per_kg=vehicle_manufacturing_cost,
+        co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+        co2_cost_per_consumption=kgCO2_per_kWh,
+        vehicle_life_km=vehicle_life,
     ),
     pvl.Vehicle(
-        [
-            "Elcykel",
-            15,
-            0.5,
-            0.005,
-            vehicle_manufacturing_cost,
-            battery_manufacturing_cost,
-            kgCO2_per_kWh,
-            vehicle_life,
-        ]
+        name="Elcykel",
+        weight=15,
+        battery_capacity=0.5,
+        consumption_per_km=0.005,
+        co2_build_cost_per_kg=vehicle_manufacturing_cost,
+        co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+        co2_cost_per_consumption=kgCO2_per_kWh,
+        vehicle_life_km=vehicle_life,
     ),
 }
 
@@ -139,8 +129,12 @@ plt.ylabel("CO2 [metric tonnes]")
 plt.show()
 
 # ## Fordonspark
-# Många av oss äger ju flera fordon. Hur mycket förbättrar vi situationen om vi cyklar 10km för varje 100km vi kör i vår stora bil? Här jämför vi
-# alternativ för omläggning av persontransporterna för någon som tidigare kört en liten bensinbil men som nu vill lägga om sitt liv för att minska klimatpåverkan. Efter ett antal mil med bilpendling bestämmer sig vår protagonist för att lägga om sitt liv för att minska sitt klimatavtryck, genom att:
+# Många av oss äger ju flera fordon. Hur mycket förbättrar vi situationen om
+# vi cyklar 10km för varje 100km vi kör i vår stora bil? Här jämför vi
+# alternativ för omläggning av persontransporterna för någon som tidigare kört
+# en liten bensinbil men som nu vill lägga om sitt liv för att minska klimatpåverkan.
+# Efter ett antal mil med bilpendling bestämmer sig vår protagonist för att lägga om
+# sitt liv för att minska sitt klimatavtryck, genom att:
 #
 # 1. Fortsätta köra samma bensinbil
 # 2. Köpa en stor elbil
@@ -176,30 +170,26 @@ electric_bike = next(
 
 # And define additional vehicle combinations
 large_electric_and_bike = pvl.Vehicle(
-    [
-        "Stor elbil och cykel",
-        large_electric_car.weight + bike.weight,
-        large_electric_car.battery_capacity + bike.battery_capacity,
-        large_electric_car.consumption_per_km * (1 - fraction_bike_rides)
-        + bike.consumption_per_km * fraction_bike_rides,
-        vehicle_manufacturing_cost,
-        battery_manufacturing_cost,
-        kgCO2_per_kWh,
-        vehicle_life,
-    ]
+    name="Stor elbil och cykel",
+    weight=large_electric_car.weight + bike.weight,
+    battery_capacity=large_electric_car.battery_capacity + bike.battery_capacity,
+    consumption_per_km=large_electric_car.consumption_per_km * (1 - fraction_bike_rides)
+    + bike.consumption_per_km * fraction_bike_rides,
+    co2_build_cost_per_kg=vehicle_manufacturing_cost,
+    co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+    co2_cost_per_consumption=kgCO2_per_kWh,
+    vehicle_life_km=vehicle_life,
 )
 small_electric_and_bike = pvl.Vehicle(
-    [
-        "Liten elbil och cykel",
-        small_electric_car.weight + bike.weight,
-        small_electric_car.battery_capacity + bike.battery_capacity,
-        small_electric_car.consumption_per_km * (1 - fraction_bike_rides)
-        + bike.consumption_per_km * fraction_bike_rides,
-        vehicle_manufacturing_cost,
-        battery_manufacturing_cost,
-        kgCO2_per_kWh,
-        vehicle_life,
-    ]
+    name="Liten elbil och cykel",
+    weight=small_electric_car.weight + bike.weight,
+    battery_capacity=small_electric_car.battery_capacity + bike.battery_capacity,
+    consumption_per_km=small_electric_car.consumption_per_km * (1 - fraction_bike_rides)
+    + bike.consumption_per_km * fraction_bike_rides,
+    co2_build_cost_per_kg=vehicle_manufacturing_cost,
+    co2_battery_build_cost_per_kWh=battery_manufacturing_cost,
+    co2_cost_per_consumption=kgCO2_per_kWh,
+    vehicle_life_km=vehicle_life,
 )
 
 # Define the scenarios as described above

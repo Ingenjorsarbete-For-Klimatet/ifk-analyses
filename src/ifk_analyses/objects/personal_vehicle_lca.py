@@ -1,19 +1,20 @@
-"""Backend data class for vehicle."""
+"""Backend data class and some methods for vehicle."""
+
+from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
 class Vehicle:
     """Class for vehicles."""
 
-    def __init__(self, data) -> None:
-        """Initialization."""
-        self.name = data[0]
-        self.weight = data[1]
-        self.battery_capacity = data[2]
-        self.consumption_per_km = data[3]
-        self.co2_build_cost_per_kg = data[4]
-        self.co2_battery_build_cost_per_kWh = data[5]
-        self.co2_cost_per_consumption = data[6]
-        self.vehicle_life_km = data[7]
+    name: str
+    weight: int
+    battery_capacity: int
+    consumption_per_km: int
+    co2_build_cost_per_kg: int
+    co2_battery_build_cost_per_kWh: int
+    co2_cost_per_consumption: int
+    vehicle_life_km: int
 
 
 def co2analysis(car: Vehicle, driven_distance, co2debt):
