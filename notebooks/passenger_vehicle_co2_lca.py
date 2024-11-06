@@ -121,7 +121,7 @@ driven_distance = np.linspace(0, vehicle_life, 200)
 legend = []
 for vehicle in vehicles:
     vehicle_data = pvl.co2analysis(vehicle, driven_distance, 1)
-    plt.plot(vehicle_data[0], vehicle_data[1])
+    plt.plot(vehicle_data[0], vehicle_data[1] / 1000)
     legend.append(vehicle.name)
 plt.legend(legend)
 plt.xlabel("kördistans [km]")
@@ -234,7 +234,7 @@ for scenario, data in scenarios.items():
 plt.figure(figsize=(10, 6), dpi=100)
 leg = []
 for value in vehicle_data:
-    plt.plot(value[1], value[2])
+    plt.plot(value[1], value[2] / 1000)
     leg.append(value[0])
 plt.legend(leg)
 plt.xlabel("kördistans [km]")
